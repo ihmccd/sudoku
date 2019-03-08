@@ -1,4 +1,4 @@
-module.exports = function solveSudoku(matrix) {
+module.exports = function solveSudoku(arr) {
    
   //converts 9 arrays in 1
     
