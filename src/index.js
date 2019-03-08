@@ -1,11 +1,11 @@
-module.exports = function solveSudoku(arr) {
+module.exports = function solveSudoku(matrix) {
    
   //converts 9 arrays in 1
     
   let strSud= [];
-  for (let i = 0; i< arr.length; i++){
-    for (let j = 0; j< arr[i].length; j++)
-      strSud.push(arr[i][j]);
+  for (let i = 0; i< matrix.length; i++){
+    for (let j = 0; j< matrix[i].length; j++)
+      strSud.push(matrix[i][j]);
   }
 
   // positions of values with 0
