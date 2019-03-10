@@ -1,12 +1,51 @@
 module.exports = function solveSudoku(arr) {
-   
-  
   let strSud= [];
   for (let i = 0; i< arr.length; i++){
     for (let j = 0; j< arr[i].length; j++)
       strSud.push(arr[i][j]);
   }
  //console.log(strSud);
+ 
+ 
+   function sectorCrush(arr){
+    let sectorsArr=[];
+
+    for(let i=0;i<arr.length;i++){
+       for(let j=0;j<arr[i].length;j++){
+      if ((i+j*9)<9 && (i+j*9)%3==0){
+
+        let someArr = [i+j*9, (i+1)+j*9, (i+2)+j*9,
+        i+(j+1)*9, (i+1)+(j+1)*9, (i+2)+(j+1)*9,
+        i+(j+2)*9, (i+1)+(j+2)*9, (i+2)+(j+2)*9
+        ];
+        sectorsArr.push(someArr);
+       // console.log("1",someArr);
+      }
+      else if((i+j*9)<35 && (i+j*9)>26 && (i+j*9)%3==0){
+        let someArr = [i+j*9, (i+1)+j*9, (i+2)+j*9,
+        i+(j+1)*9, (i+1)+(j+1)*9, (i+2)+(j+1)*9,
+        i+(j+2)*9, (i+1)+(j+2)*9, (i+2)+(j+2)*9
+        ];
+        sectorsArr.push(someArr);
+        //console.log("2",someArr);
+      }
+      else if((i+j*9)>53 && (i+j*9)<62 && (i+j*9)%3==0){
+        let someArr = [i+j*9, (i+1)+j*9, (i+2)+j*9,
+        i+(j+1)*9, (i+1)+(j+1)*9, (i+2)+(j+1)*9,
+        i+(j+2)*9, (i+1)+(j+2)*9, (i+2)+(j+2)*9
+        ];
+        //console.log((i+j*9),"3",someArr);
+        sectorsArr.push(someArr);
+      }
+    }
+  }
+  return sectorsArr;
+  }
+  
+  let sectors = sectorCrush(arr);
+ 
+ 
+ 
   
   let zeroesArr =[];
   for (let i = 0; i< strSud.length; i++){
@@ -38,9 +77,19 @@ module.exports = function solveSudoku(arr) {
       rowNumber+=9;
     }
    
+    let threeXthree=[];
+    
+    sectors.forEach(function(e){
+      if (e.indexOf(num)>=0){
+       // console.log(e);
+        for(let i = 0; i<e.length;i++){
+          threeXthree.push(arr[e[i]]);
+        }
+      }
+    })
 
     //console.log([arrSliceRow, arrSliceColumn]);
-   return [arrSliceRow, arrSliceColumn];
+   return [arrSliceRow, arrSliceColumn, threeXthree];
  }
   
   function getOptionValues(arrRowColumn){
@@ -49,7 +98,7 @@ module.exports = function solveSudoku(arr) {
     //console.log(arrRowColumn[0]);
     values.forEach(function(e){
       //console.log(e, arrRowColumn[0].indexOf(e), arrRowColumn[1].indexOf(e));
-      if (arrRowColumn[0].indexOf(e)<0 && arrRowColumn[1].indexOf(e)<0){
+      if (arrRowColumn[0].indexOf(e)<0 && arrRowColumn[1].indexOf(e)<0 && arrRowColumn[2].indexOf(e)<0){
         option.push(e);
       }
     })
@@ -106,7 +155,7 @@ module.exports = function solveSudoku(arr) {
   }
     
     
- // console.log(solutionPath, editedArr(strSud));
+ //console.log(editedArr(strSud));
   return editedArr(strSud);
 }
 
